@@ -7,6 +7,7 @@ export default function Dashboard() {
     <>
     <Header />
     <PostList />
+    <h1>hii</h1>
     </>
   )
 }
