@@ -13,8 +13,11 @@ const authSlice = createSlice({
     },
     signup: (state, action) =>{
       state.signup = action.payload
-    }
-    
+    },
+    logout: (state) => {
+      state.user = null;
+      localStorage.removeItem('userCred'); 
+    },
   },
 });
 

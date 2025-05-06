@@ -46,6 +46,6 @@ export const signup = (NewUser) => {
     const userWithPassword = { ...data, password: NewUser.password };
 
     dispatch(authActions.login(userWithPassword));
-    localStorage.setItem('userInfo', JSON.stringify(userWithPassword));
+    localStorage.setItem('userCred', JSON.stringify(userWithPassword));
   };
 };

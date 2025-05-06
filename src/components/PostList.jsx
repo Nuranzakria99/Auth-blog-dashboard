@@ -13,7 +13,17 @@ export default function PostList() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="flex flex-row items-center justify-between mb-6">
       <h1 className="text-3xl font-bold text-gray-800 mb-6">📚 Posts</h1>
+      <Link
+        to="/posts/new"
+        className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 transition"
+      >
+        + New Post
+      </Link>
+      </div>
+
+   
       <ul className="grid grid-cols-1 sm:grid-cols-2 gap-6 ">
         {post &&
           post.slice(0, 4).map((post) => (
