@@ -25,10 +25,15 @@ export default function AuthForm() {
         await dispach(signup(Data));
       }
   
-      navigate('/dashboard'); 
+  
+      const userInfo = localStorage.getItem('userInfo');
+      if (userInfo) {
+        navigate('/dashboard');
+      } else {
+        throw new Error('Authentication failed.');
+      }
     } catch (error) {
-      console.error('Auth failed:', error);
-     
+      alert(error.message);
     }
   }
   
@@ -42,6 +47,7 @@ export default function AuthForm() {
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-700">Email</label>
           <input
+          required
             value={email.value}
             onChange={email.onChange}
             type="email"
@@ -52,6 +58,8 @@ export default function AuthForm() {
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-700">Password</label>
           <input
+                    required
+
             value={password.value}
             onChange={password.onChange}
             type="password"
