@@ -14,20 +14,6 @@ export const fetchPost = () => {
   };
 };
 
-//Post count
-export const getPostCount = () => {
-  return async (dispatch) => {
-    const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
-      method: "GET",
-      headers: {
-        "content-type": "application/json",
-      },
-    });
-    const data = await res.json();
-    dispatch(postActions.setPostCount(data));
-  };
-};
-
 //Create New Post
 export const CreatePost = (newPost) => {
   return async (dispatch, getState) => {
