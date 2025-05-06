@@ -51,7 +51,7 @@ export default function AuthForm() {
             value={email.value}
             onChange={email.onChange}
             type="email"
-            className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-gray-800"
           />
         </div>
 
@@ -63,7 +63,7 @@ export default function AuthForm() {
             value={password.value}
             onChange={password.onChange}
             type="password"
-            className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-gray-800"
           />
         </div>
 
