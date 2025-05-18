@@ -1,10 +1,18 @@
-import  {authActions } from "./authSlice";
+import { authActions } from './authSlice';
+import { AppDispatch } from '../store';
 
-//Login
-export const login = (user) => {
-  return async (dispatch) => {
-    // Check localStorage for an existing user
-    const storedUser = JSON.parse(localStorage.getItem('userInfo'));
+interface User {
+  email: string;
+  password: string;
+  token?: string;
+}
+
+// Login
+export const login = (user: User) => {
+  return async (dispatch: AppDispatch) => {
+    const storedUserStr = localStorage.getItem('userInfo');
+    const storedUser: User | null = storedUserStr ? JSON.parse(storedUserStr) : null;
+
     if (storedUser && storedUser.email === user.email && storedUser.password === user.password) {
       dispatch(authActions.login(storedUser));
       return;
@@ -17,7 +25,8 @@ export const login = (user) => {
       },
     });
 
-    const users = await res.json();
+    const users: User[] = await res.json();
+
     const existingUser = users.find(
       (u) => u.email === user.email && u.password === user.password
     );
@@ -32,20 +41,21 @@ export const login = (user) => {
 };
 
 // Signup
-export const signup = (NewUser) => {
-  return async (dispatch) => {
+export const signup = (newUser: User) => {
+  return async (dispatch: AppDispatch) => {
     const res = await fetch('https://jsonplaceholder.typicode.com/users', {
       method: 'POST',
-      body: JSON.stringify(NewUser),
+      body: JSON.stringify(newUser),
       headers: {
         'Content-Type': 'application/json',
       },
     });
 
     const data = await res.json();
-    const userWithPassword = { ...data, password: NewUser.password };
+    const userWithPassword: User = { ...data, password: newUser.password };
 
     dispatch(authActions.login(userWithPassword));
-    localStorage.setItem('userCred', JSON.stringify(userWithPassword));
+    localStorage.setItem('userInfo', JSON.stringify(userWithPassword));
   };
 };
+

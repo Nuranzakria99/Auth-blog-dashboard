@@ -1,9 +1,11 @@
+import { AppDispatch, RootState } from "../store";
 import { postActions } from "./postSlice";
+import {PostType} from "../types"
 
 //Post
 export const fetchPost = () => {
-  return async (dispatch) => {
-    const localPosts = JSON.parse(localStorage.getItem("localPosts")) || [];
+  return async (dispatch : AppDispatch) => {
+    const localPosts: PostType[] = JSON.parse(localStorage.getItem("localPosts") || "[]");
 
     const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
       method: "GET",
@@ -22,19 +24,19 @@ export const fetchPost = () => {
 };
 
 // Create New Post
-export const CreatePost = (newPost) => {
-  return async (dispatch, getState) => {
+export const CreatePost = (newPost: PostType) => {
+   return async (dispatch: AppDispatch, getState: () => RootState) => {
     const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
       method: "POST",
       headers: {
-        Authorization: 'Bearer ' + getState().auth.user.token,
+        Authorization: 'Bearer ' + getState().auth.user?.token,
         "content-type": "application/json",
       },
       body: JSON.stringify(newPost),
     });
 
     const createdPost = await res.json();
-    const localPosts = JSON.parse(localStorage.getItem("localPosts")) || [];
+        const localPosts: PostType[] = JSON.parse(localStorage.getItem("localPosts") || "[]");
     const updatedLocalPosts = [createdPost, ...localPosts];
     localStorage.setItem("localPosts", JSON.stringify(updatedLocalPosts));
     dispatch(postActions.setIsCreated());

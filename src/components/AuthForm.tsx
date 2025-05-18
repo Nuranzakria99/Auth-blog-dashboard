@@ -1,53 +1,61 @@
 import React from "react";
-import { Form, Link, useSearchParams  } from "react-router-dom";
+import { Form, Link, useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { login } from '../store/authSliceCall'
-import { signup } from '../store/authSliceCall'
+import { login, signup } from "../store/authSliceCall";
 import { useInput } from "../hooks/useInputs";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
+import { AppDispatch } from "../store";
 
 export default function AuthForm() {
   const [searchParms] = useSearchParams();
   const isLogin = searchParms.get("mode") === "login";
   const email = useInput("");
   const password = useInput("");
-  const dispach = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
-  async function handelSumbit(e) {
+  async function handelSumbit(e: React.FormEvent) {
     e.preventDefault();
     const Data = { email: email.value, password: password.value };
-  
+
     try {
       if (isLogin) {
-        await dispach(login(Data));
+        await dispatch(login(Data));
       } else {
-        await dispach(signup(Data));
+        await dispatch(signup(Data));
       }
-  
-  
-      const userInfo = localStorage.getItem('userInfo');
+
+      const userInfo = localStorage.getItem("userInfo");
       if (userInfo) {
-        navigate('/dashboard');
+        navigate("/dashboard");
       } else {
-        throw new Error('Authentication failed.');
+        throw new Error("Authentication failed.");
       }
-    } catch (error) {
-      alert(error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert("An unknown error occurred.");
+      }
     }
   }
-  
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-      <Form onSubmit={handelSumbit} className="bg-white p-8 rounded-2xl shadow-md w-full max-w-md space-y-6">
+      <Form
+        onSubmit={handelSumbit}
+        className="bg-white p-8 rounded-2xl shadow-md w-full max-w-md space-y-6"
+      >
         <h1 className="text-2xl font-bold text-center text-gray-800">
           {isLogin ? "Login" : "Signup"}
         </h1>
-        
+
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">Email</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Email
+          </label>
           <input
-          required
+            required
             value={email.value}
             onChange={email.onChange}
             type="email"
@@ -56,10 +64,11 @@ export default function AuthForm() {
         </div>
 
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">Password</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Password
+          </label>
           <input
-                    required
-
+            required
             value={password.value}
             onChange={password.onChange}
             type="password"
