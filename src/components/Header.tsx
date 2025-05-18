@@ -2,9 +2,10 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import LogoutButton from "./logout";
+import { RootState } from "../store";
 
 export default function Header() {
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state: RootState) => state.auth);
 
   return (
     <header className="flex items-center justify-between px-4 py-4">

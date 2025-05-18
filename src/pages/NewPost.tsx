@@ -4,19 +4,20 @@ import { useInput } from "../hooks/useInputs";
 import { useDispatch , useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom'
 import { CreatePost } from "../store/postSliceCall";
+import { RootState, AppDispatch } from "../store";
 
 
 export default function NewPost() {
   const title = useInput("");
-  const content = useInput("");
-  const dispatch = useDispatch();
-  const {isCreated} = useSelector(state => state.post)
+  const content = useInput<HTMLTextAreaElement>("");
+  const dispatch = useDispatch<AppDispatch>();
+  const {isCreated} = useSelector((state: RootState) => state.post)
   const navigate = useNavigate()
 
-  function handleSubmit(e) {
+  function handleSubmit(e: React.FormEvent) {
+     e.preventDefault();
     const data = { title: title.value, body: content.value}
-    
-    e.preventDefault();
+
     dispatch(CreatePost(data))
     
   }

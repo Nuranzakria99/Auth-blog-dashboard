@@ -1,6 +1,11 @@
 import React from "react";
+import { PostType } from "../types";
 
-export default function PostItem({ post }) {
+interface PostItemProps {
+  post: PostType;
+}
+
+export default function PostItem({ post }: PostItemProps) {
   return (
     <div className="p-4 border rounded bg-white shadow">
       <h1 className="text-2xl font-bold mb-2">{post.title}</h1>
